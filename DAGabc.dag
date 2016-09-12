@@ -1,0 +1,16 @@
+JOB A step1.sub
+VARS A the_analysis_name="GAIM_28"
+VARS A sample_name="GAIM_28"
+
+JOB B step2.sub
+VARS B the_analysis_name="GAIM_28"
+VARS B sample_name="GAIM_28"
+
+JOB C step3.sub
+VARS C the_analysis_name="GAIM_28"
+VARS C sample_name="GAIM_28"
+
+SCRIPT POST C remove_colons.sh the_analysis_name="GAIM_28"
+
+PARENT A CHILD B
+PARENT B CHILD C

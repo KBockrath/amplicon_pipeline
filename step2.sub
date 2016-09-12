@@ -1,0 +1,29 @@
+notification 	 = Never
+universe         = vanilla
+Requirements = (Machine == "igsarfebaskoimaster")
+RunAsOwner = True
+#for every new analysis change the name of the shell file and the arguments data file name
+
+executable       = step2.py
+
+# the path of the nt.00 file is based on the Worker --- not the submit node
+
+arguments        =  $(the_analysis_name)
+#convert_fastaqual_fastq.py -f /home/smccalla/htcondor/GAIM_12/data/join_paired_ends/fastqjoin.join.fastq -c fastq_to_fastaqual -o /home/smccalla/htcondor/GAIM_12/data/fasta_files
+
+
+stream_output = True
+stream_error = True
+log              = /home/smccalla/htcondor/$(sample_name)/log/step2.log
+output           = /home/smccalla/htcondor/$(sample_name)/log/step2.out
+error            = /home/smccalla/htcondor/$(sample_name)/log/step2.error
+should_transfer_files = YES
+#transfer_output_files = /home/Applicationschly03/results/group_$(Process).out
+
+when_to_transfer_output = ON_EXIT
+#transfer_output_remaps = "group_$(Process).xml = /home/Applications/chly03/results/group_$(Process).xml"
+#transfer_output_remaps---> use if I want to put in to a specific directory if I don't want it to come back to my submit directory
+
+#transfer_input_files = /home/Applications/chly03/group_$(Process).fasta
+#call queue with the number of chunks you split the input into
+queue      1

@@ -1,0 +1,16 @@
+notification = Never
+universe         = vanilla
+Requirements     = (Machine == "igsarfebaskoimaster")
+executable       = /home/Applications/ncbi-blast-2.3.0+/bin/blastn
+arguments        = -query /home/smccalla/htcondor/$(the_analysis_name)/data/fasta_files/group_$(Process).fasta -db /home/Applications/ncbi-blast-2.3.0+/bin/nt00thru36 -strand plus -evalue 1e-5 -outfmt 7 -perc_identity 90 -max_target_seqs 100 -out /home/smccalla/htcondor/$(the_analysis_name)/condor_out/results/group_$(Process).out
+RunAsOwner = True
+# To test that BLAST is working: blastn -query /home/smccalla/htcondor/GAIM_01/data/fasta_files/group_0.fasta -db /home/Applications/ncbi-blast-2.3.0+/bin/nt00thru36 -strand plus -perc_identity 95 -out /home/smccalla/htcondor/GAIM_01/data/fasta_files/group_0.out
+
+stream_output = True
+stream_error = True 
+log              = /home/smccalla/htcondor/$(the_analysis_name)/condor_out/log/blast.log
+output           = /home/smccalla/htcondor/$(the_analysis_name)/condor_out/log/blast.out.group_$(Process)
+error            = /home/smccalla/htcondor/$(the_analysis_name)/condor_out/log/blast.error.$(Process)
+
+queue filename matching files /home/smccalla/htcondor/$(the_analysis_name)/data/fasta_files/group_*.fasta
+
