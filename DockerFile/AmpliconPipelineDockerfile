@@ -35,7 +35,7 @@ ENV PATH "$PATH:/usr/local/bin/FastQC"
 
 # install fastQValidator
 # FIRST build libStatGen
-COPY libStatGen-master /usr/local/bin/libStatGen
+COPY libStatGen /usr/local/bin/libStatGen
 COPY fastQValidator_0.1.1 /usr/local/bin/fastQValidator_0.1.1
 RUN cd /usr/local/bin/libStatGen && make all && cd /usr/local/bin/fastQValidator_0.1.1 && make
 ENV PATH "$PATH:/usr/local/bin/fastQValidator_0.1.1/bin"
