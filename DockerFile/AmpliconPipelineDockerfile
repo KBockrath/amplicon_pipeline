@@ -15,6 +15,8 @@ RUN conda config --set ssl_verify false
 # install QIIME - the Anaconda version
 # see http://qiime.org/install/install.html for details
 RUN conda create -n qiime1 python=2.7 qiime matplotlib=1.4.3 mock nose -c bioconda
+# change the matplotlib backend
+RUN sed -i.bak s/': Qt4Agg'/': agg'/g /opt/conda/envs/qiime1/lib/python2.7/site-packages/matplotlib/mpl-data/matplotlibrc 
 
 # install biopython
 SHELL ["/bin/bash", "-c"] && RUN . activate qiime1 && conda install biopython
@@ -45,4 +47,5 @@ RUN mkdir /usr/local/bin/AssignTaxonomy
 COPY taxonomy_assignment_BLAST_V1.1.py /usr/local/bin/taxonomy_assignment_BLAST_V1.1.py
 ENV PATH "$PATH:/usr/local/bin/AssignTaxonomy"
 
-
+# hopefully make files not read only
+RUN chmod -R a+rw /opt
