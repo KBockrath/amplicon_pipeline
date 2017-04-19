@@ -44,8 +44,6 @@ ENV PATH "$PATH:/usr/local/bin/fastQValidator_0.1.1/bin"
 
 # Assign Taxonomy
 RUN mkdir /usr/local/bin/AssignTaxonomy 
-COPY taxonomy_assignment_BLAST_V1.1.py /usr/local/bin/taxonomy_assignment_BLAST_V1.1.py
+COPY taxonomy_assignment_BLAST_V1.1.py /usr/local/bin/AssignTaxonomy/taxonomy_assignment_BLAST_V1.1.py
 ENV PATH "$PATH:/usr/local/bin/AssignTaxonomy"
 
-# hopefully make files not read only
-RUN chmod -R a+rw /opt
