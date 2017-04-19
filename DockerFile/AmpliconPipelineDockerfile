@@ -1,0 +1,48 @@
+FROM continuumio/miniconda3
+MAINTAINER Mike Fienen <mnfienen@usgs.gov>
+# install basics
+RUN apt-get update && apt-get install -y \
+	g++\
+ 	build-essential\
+	libgsl0-dev\
+	default-jre \
+	zlib1g-dev \
+   && rm -rf /var/lib/apt/lists/*
+
+# disable SSL for anaconda due to DOI man in the middle
+RUN conda config --set ssl_verify false
+
+# install QIIME - the Anaconda version
+# see http://qiime.org/install/install.html for details
+RUN conda create -n qiime1 python=2.7 qiime matplotlib=1.4.3 mock nose -c bioconda
+
+# install biopython
+SHELL ["/bin/bash", "-c"] && RUN . activate qiime1 && conda install biopython
+
+RUN conda install bipoython
+
+# install BLAST
+COPY ncbi-blast-2.6.0+ /usr/local/bin/ncbi-blast-2.6.0+ 
+ENV PATH "$PATH:/usr/local/bin/ncbi-blast-2.6.0+/bin"
+
+# install Trimmomatic
+COPY Trimmomatic-0.36 /usr/local/bin/Trimmomatic-0.36 
+ENV PATH "$PATH:/usr/local/bin/Trimmomatic-0.36"
+
+# install FastQC
+COPY FastQC /usr/local/bin/FastQC 
+ENV PATH "$PATH:/usr/local/bin/FastQC"
+
+# install fastQValidator
+# FIRST build libStatGen
+COPY libStatGen-master /usr/local/bin/libStatGen
+COPY fastQValidator_0.1.1 /usr/local/bin/fastQValidator_0.1.1
+RUN cd /usr/local/bin/libStatGen && make all && cd /usr/local/bin/fastQValidator_0.1.1 && make
+ENV PATH "$PATH:/usr/local/bin/fastQValidator_0.1.1/bin"
+
+# Assign Taxonomy
+RUN mkdir /usr/local/bin/AssignTaxonomy 
+COPY taxonomy_assignment_BLAST_V1.1.py /usr/local/bin/taxonomy_assignment_BLAST_V1.1.py
+ENV PATH "$PATH:/usr/local/bin/AssignTaxonomy"
+
+
