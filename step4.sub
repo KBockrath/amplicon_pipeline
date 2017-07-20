@@ -1,0 +1,21 @@
+notification = Never
+universe         = vanilla
+Requirements = (Machine == "igsarfebaskoimaster")
+executable       =/home/smccalla/step4_conda_activate_qiime.py
+
+#arguments        =$(the_analysis_name)
+arguments        =test_28
+#python step4_conda_activate_qiime.py test_28
+
+RunAsOwner = True
+stream_output = True
+stream_error = True
+#log              = /home/smccalla/$(sample_name)/log/step1.log
+#output           = /home/smccalla/$(sample_name)/log/step1.out
+#error            = /home/smccalla/$(sample_name)/log/step1.error
+
+log              = /home/smccalla/test_28/log/step1.log
+output           = /home/smccalla/test_28/log/step1.out
+error            = /home/smccalla/test_28/log/step1.error
+
+queue      1

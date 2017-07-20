@@ -1,0 +1,21 @@
+notification = Never
+universe         = vanilla
+Requirements     = (Machine == "igsarfebaskoi00")
+executable       =/home/smccalla/step1_conda_activate_qiime.py
+RunAsOwner = True
+#arguments        =$(sample_name)_*R1_001.fastq.gz $(sample_name)_*R2_001.fastq.gz $(the_analysis_name) 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+arguments        =test*_R1.fastq.gz test*_R2.fastq.gz test_28 test test
+#python step1.py GAIM_05*_R1_001.fastq.gz GAIM_05*_R2_001.fastq.gz GAIM_05 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+
+RunAsOwner = True
+stream_output = True
+stream_error = True
+#log              = /home/smccalla/htcondor/$(sample_name)/log/step1.log
+#output           = /home/smccalla/htcondor/$(sample_name)/log/step1.out
+#error            = /home/smccalla/htcondor/$(sample_name)/log/step1.error
+
+log              = /home/smccalla/test_28/step1.log
+output           = /home/smccalla/test_28/step1.out
+error            = /home/smccalla/test_28/step1.error
+
+queue      1
