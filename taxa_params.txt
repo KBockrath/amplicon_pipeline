@@ -1,0 +1,2 @@
+#echo "plot_taxa_summary:chart_type pie,bar" > taxa_params.txt
+plot_taxa_summary:chart_type bar,pie
