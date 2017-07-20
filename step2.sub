@@ -1,16 +1,25 @@
 notification 	 = Never
 universe         = vanilla
+<<<<<<< HEAD
 Requirements     = (Machine == "igsarfebaskoi00")
 RunAsOwner = True
 executable       = /home/smccalla/step2_conda_activate_qiime.py
 #arguments        =  $(the_analysis_name)
 
 arguments       = test_28
+=======
+Requirements = (Machine == "igsarfebaskoimaster")
+RunAsOwner = True
+executable       = step2.py
+arguments        =  $(the_analysis_name)
+
+>>>>>>> ef50eeb120c75c9b8c1ce564e47856ec24545539
 #convert_fastaqual_fastq.py -f /home/smccalla/htcondor/GAIM_12/data/join_paired_ends/fastqjoin.join.fastq -c fastq_to_fastaqual -o /home/smccalla/htcondor/GAIM_12/data/fasta_files
 #python step1.py GAIM_05*_R1_001.fastq.gz GAIM_05*_R2_001.fastq.gz GAIM_05 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
 
 stream_output = True
 stream_error = True
+<<<<<<< HEAD
 #log              = /home/smccalla/$(sample_name)/log/step2.log
 #output           = /home/smccalla/$(sample_name)/log/step2.out
 #error            = /home/smccalla/$(sample_name)/log/step2.error
@@ -19,5 +28,10 @@ log              = /home/smccalla/test_28/step2.log
 output           = /home/smccalla/test_28/step2.out
 error            = /home/smccalla/test_28/step2.error
 
+=======
+log              = /home/smccalla/htcondor/$(sample_name)/log/step2.log
+output           = /home/smccalla/htcondor/$(sample_name)/log/step2.out
+error            = /home/smccalla/htcondor/$(sample_name)/log/step2.error
+>>>>>>> ef50eeb120c75c9b8c1ce564e47856ec24545539
 should_transfer_files = YES
 queue      1
