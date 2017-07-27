@@ -1,23 +1,15 @@
 notification = Never
 universe         = vanilla
-<<<<<<< HEAD
 Requirements     = (Machine == "igsarfebaskoi00")
 executable       =/home/smccalla/step1_conda_activate_qiime.py
 RunAsOwner = True
 #arguments        =$(sample_name)_*R1_001.fastq.gz $(sample_name)_*R2_001.fastq.gz $(the_analysis_name) 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
 arguments        =test*_R1.fastq.gz test*_R2.fastq.gz test_28 test test
-=======
-Requirements = (Machine == "igsarfebaskoimaster")
-executable       =/home/smccalla/htcondor/step1.py
-
-arguments        =$(sample_name)_*R1_001.fastq.gz $(sample_name)_*R2_001.fastq.gz $(the_analysis_name) 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
->>>>>>> ef50eeb120c75c9b8c1ce564e47856ec24545539
 #python step1.py GAIM_05*_R1_001.fastq.gz GAIM_05*_R2_001.fastq.gz GAIM_05 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
 
 RunAsOwner = True
 stream_output = True
 stream_error = True
-<<<<<<< HEAD
 #log              = /home/smccalla/htcondor/$(sample_name)/log/step1.log
 #output           = /home/smccalla/htcondor/$(sample_name)/log/step1.out
 #error            = /home/smccalla/htcondor/$(sample_name)/log/step1.error
@@ -25,14 +17,5 @@ stream_error = True
 log              = /home/smccalla/test_28/step1.log
 output           = /home/smccalla/test_28/step1.out
 error            = /home/smccalla/test_28/step1.error
-=======
-log              = /home/smccalla/htcondor/$(sample_name)/log/step1.log
-output           = /home/smccalla/htcondor/$(sample_name)/log/step1.out
-error            = /home/smccalla/htcondor/$(sample_name)/log/step1.error
-
-#log              = /home/smccalla/htcondor/GAIM_29/log/step1.log
-#output           = /home/smccalla/htcondor/GAIM_29/log/step1.out
-#error            = /home/smccalla/htcondor/GAIM_29/log/step1.error
->>>>>>> ef50eeb120c75c9b8c1ce564e47856ec24545539
 
 queue      1
