@@ -1,6 +1,6 @@
 notification = Never
 universe         = vanilla
-Requirements = (Machine == "igsarfebaskoimaster")
+#Requirements = (Machine == "igsarfebaskoimaster")
 executable       =/home/smccalla/step4_conda_activate_qiime.py
 
 #arguments        =$(the_analysis_name)
