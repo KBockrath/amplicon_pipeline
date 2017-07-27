@@ -1,0 +1,29 @@
+notification = Never
+universe         = docker
+#Requirements     = (Machine == "igsarfebaskoi00")
+executable       =/home/smccalla/step1_conda_activate_qiime.py
+RunAsOwner = True
+docker_image = smccalla/amplicon_dockerfile
+#arguments        =$(sample_name)_*R1_001.fastq.gz $(sample_name)_*R2_001.fastq.gz $(the_analysis_name) 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+arguments        =test*_R1.fastq.gz test*_R2.fastq.gz test_28 test_28 test_28
+#arguments        =$(sample_name)_*R1_001.fastq.gz $(sample_name)_*R2_001.fastq.gz $(the_analysis_name) 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+
+#python step1.py test*_R1_001.fastq.gz test*_R2_001.fastq.gz test 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+
+stream_output = True
+stream_error = True
+
+
+when_to_transfer_output	= ON_EXIT_OR_EVICT
+should_transfer_files	= Yes
+
+
+log              = /home/smccalla/test_28/step1.log
+output           = /home/smccalla/test_28/step1.out
+error            = /home/smccalla/test_28/step1.error
+
+#log              = /home/smccalla/$(sample_name)/log/step1.log
+#output           = /home/smccalla/$(sample_name)/log/step1.out
+#error            = /home/smccalla/$(sample_name)/log/step1.error
+
+queue      1
