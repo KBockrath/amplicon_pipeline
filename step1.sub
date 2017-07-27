@@ -1,6 +1,6 @@
 notification = Never
 universe         = vanilla
-Requirements     = (Machine == "igsarfebaskoi00")
+#Requirements     = (Machine == "igsarfebaskoi00")
 executable       =/home/smccalla/step1_conda_activate_qiime.py
 RunAsOwner = True
 #arguments        =$(sample_name)_*R1_001.fastq.gz $(sample_name)_*R2_001.fastq.gz $(the_analysis_name) 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
