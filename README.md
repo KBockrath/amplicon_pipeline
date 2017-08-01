@@ -32,5 +32,12 @@ Example submit for step3:
 ______________________________________________________________________________________________________________________________
 If using HTCondor and DAG
 
+<<<<<<< HEAD
 Example HTCondor submit for DAG:
 > condor_submit_dag DAGabc.dag
+||||||| merged common ancestors
+condor_submit_dag DAGabc.dag
+=======
+Example HTCondor submit for DAG:
+> condor_submit_dag DAGabc.dag
+>>>>>>> e376c63214c652a112d77b745c5bcc5bea7f0d19
