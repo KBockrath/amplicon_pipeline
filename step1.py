@@ -1,9 +1,9 @@
 #!/usr/bin/python
-#docker run -it -v /home/smccalla/working_docker_directory:/home/smccalla/ -w /Bioinformatics_Grace/ amplicon_pipeline3 /bin/bash
+# docker run -it -v /home/smccalla/working_docker_directory:/home/smccalla/ -w /Bioinformatics_Grace/ amplicon_pipeline3 /bin/bash
 # docker run -it -v /home/smccalla/:/home/smccalla/ -w /Bioinformatics_Grace/ -i mnfienen/amplicon_pipeline3 /bin/bash
-#python step1.py GAIM_15*_R1_001.fastq.gz GAIM_15*_R2_001.fastq.gz GAIM_15 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
-#python step1.py test*_R1.fastq.gz test*_R2.fastq.gz test_28 test test
-#Assuming all the raw data is in /home/smccalla/working_docker_directory/raw_data
+# python step1.py GAIM_15*_R1_001.fastq.gz GAIM_15*_R2_001.fastq.gz GAIM_15 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+# python step1.py test*_R1.fastq.gz test*_R2.fastq.gz test_28 test test
+# Assuming all the raw data is in /home/smccalla/working_docker_directory/raw_data
 from __future__ import print_function
 import sys, os, shutil, glob, zipfile
 
