@@ -1,9 +1,10 @@
 #!/usr/bin/python
 #
 #
-#
-# python step4.py GAIM_15
 # python step4.py test_28
+# python step4.py GAIM_15
+# python step4.py GAIM_01
+# 
 from __future__ import print_function
 import sys, os, shutil, glob, zipfile
 # read in command line variables
@@ -51,13 +52,14 @@ os.system(runstr)
 print('\n')
 
 # Assign taxonomy #2
+# https://github.com/Joseph7e/Assign-Taxonomy-with-BLAST
 # Run the script with the new blast file AND the otus.txt file generated in Assign taxonomy #1.
 # python taxonomy_assignment_BLAST.py --blast_file test_28_blast.out --cutoff_species 99 --cutoff_family 95 --cutoff_phylum 90 --length_percentage 0.8 --length_cutoff 70 --hits_to_consider 10 --percent_sway 0.5 --blast_evalue 1e-1 --make_biom --ncbi_nt combined_seqs.fna NONE ncbi_taxonomy_expanded.tsv -v --otu_file saved_files/combined_seqs_otus.txt
 # python taxonomy_assignment_BLAST.py --blast_file GAIM_15_blast.out --cutoff_species 99 --cutoff_family 90 --cutoff_phylum 85 --length_percentage 0.8 --length_cutoff 70 --hits_to_consider 10 --percent_sway 0.5 --blast_evalue 1e-1 --make_biom --ncbi_nt combined_seqs.fna NONE ncbi_taxonomy_expanded.tsv -v --otu_file saved_files/combined_seqs_otus.txt
 
 runstr = 'python taxonomy_assignment_BLAST_V1.1.py ' \
          '--blast_file {1}/{0}_blast.out --cutoff_species 99 --cutoff_family 95 --cutoff_phylum 90 --length_percentage 0.8 ' \
-         '--length_cutoff 80 --hits_to_consider 1 --percent_sway 0.95 --blast_evalue 1e-1 --make_biom --ncbi_nt {1}/combined_seqs.fna NONE {1}/ncbi_taxonomy_expanded.tsv -v ' \
+         '--length_cutoff 60 --hits_to_consider 10 --percent_sway 0.50 --blast_evalue 1e-1 --make_biom --ncbi_nt {1}/combined_seqs.fna NONE {1}/ncbi_taxonomy_expanded.tsv -v ' \
          '--otu_file {1}/saved_files/combined_seqs_otus.txt --output_dir {1}/{0}_OTU/'.format(os.path.join(the_analysis_name),
          os.path.join(formattednamesdir))
 

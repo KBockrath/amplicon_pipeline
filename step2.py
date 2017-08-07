@@ -6,8 +6,14 @@ from __future__ import print_function
 import sys, os, shutil, glob
 import zipfile
 import os
-from Bio import SeqIO
 import glob
+
+# install biopython
+runstr='pip install biopython '
+
+print('Installing biopython: {0} \n'.format(runstr))
+os.system(runstr)
+from Bio import SeqIO
 
 exfile = 'fastqjoin.join.fna'
 
@@ -116,6 +122,7 @@ os.chdir(formattednamesdir)
 print ('navigating into: {0}'.format(formattednamesdir))
 
 # Assign taxonomy #1
+# https://github.com/Joseph7e/Assign-Taxonomy-with-BLAST
 # nohup python taxonomy_assignment_BLAST.py combined_seqs.fna NONE NONE
 runstr = 'python taxonomy_assignment_BLAST_V1.1.py ' \
          '{0} NONE NONE'.format(os.path.join(formattednamesdir,'combined_seqs.fna'))
@@ -138,30 +145,11 @@ for file in glob.glob(os.path.join(formattednamesdir,otupickdir,'combined_seqs_o
     print ('copying otus.txt #1 from {0} to {1} \n \n \n'.format(file,os.path.join(formattednamesdir,os.path.basename(file))))
     shutil.copyfile(file,os.path.join(savedfilesdir,os.path.basename(file)))
 
-#Split the data into many files
-#fasta_many_dir = os.path.join(datadir, 'fasta_manyfiles')
-#if os.path.exists(fasta_many_dir):
-#    shutil.rmtree(fasta_many_dir)
-#os.mkdir(fasta_many_dir)
-#cp
-# get yer split on!
 currdir = os.path.abspath(os.getcwd())
 
-#print ('navigating into: {0}'.format(fasta_many_dir))
-#os.chdir(formattednamesdir)
-
-#os.runstr = 'python /home/smccalla/split_fasta.py'
-#runstr = 'python split_fasta.py'
-#print ('splitting the data using:\n{0}'.format(runstr))
-#os.system(runstr)
-
-#fppath =  os.path.join(fastafilesdir, 'combined_seqs.fna')
-
-# Using the new otu.fasta file to setup for a BLAST with outfmt 6
-# /home/smccalla/working_docker_directory/GAIM_05/data/fasta_files/fastqjoin.join.fna.formatted/saved_files
 newotupath = os.path.join(savedfilesdir, 'otu_seqs.fasta')
 
-
+#Split the data into many files
 def batch_iterator(iterator, batch_size):
     """Returns lists of length batch_size.
 

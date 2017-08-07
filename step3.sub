@@ -9,12 +9,12 @@ RunAsOwner = True
 #accounting_group_user =smccalla
 #arguments        = -query /home/smccalla/working_docker_directory/$(the_analysis_name)/data/fasta_files/group_$(Process).fasta -db /home/Applications/ncbi-blast-2.4.0+/bin/nt00thru36 -evalue 1e-1 -outfmt '6 qseqid qlen sseqid pident length qstart qend sstart send evalue bitscore staxids' -out /home/smccalla/htcondor/GAIM_05/results/$(the_analysis_name)/condor_out/results/group_$(Process).out
 #To run outside of a dag: 
-#arguments        = -query /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_$(Process).fasta -db /home/Applications/ncbi-blast-2.4.0+/bin/nt00thru36 -evalue 1e-1 -out /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_$(Process).out -outfmt "6 qseqid qlen sseqid pident length qstart qend sstart send evalue bitscore staxids"
-#arguments        = -query /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/group_$(Process).fasta -db /home/Applications/ncbi-blast-2.4.0+/bin/nt00thru36 -evalue 1e-1 -out /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_$(Process).out -outfmt '6 qseqid qlen sseqid pident length qstart qend sstart send evalue bitscore staxids' 
+#arguments        = -query /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_$(Process).fasta -db /home/Applications/ncbi-blast-2.4.0+/bin/nt00thru36 -evalue 1e-1 -out /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_$(Process).out -outfmt "6 qseqid qlen sseqid pident length qstart qend sstart send evalue bitscore staxids"
+#arguments        = -query /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/group_$(Process).fasta -db /home/Applications/ncbi-blast-2.4.0+/bin/nt00thru36 -evalue 1e-1 -out /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_$(Process).out -outfmt '6 qseqid qlen sseqid pident length qstart qend sstart send evalue bitscore staxids' 
 arguments        = $(Process)
 
 # To test that BLAST is working: 
-# blastn -query /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_10.fasta -db /home/Applications/ncbi-blast-2.4.0+/bin/nt00thru36 -evalue 1e-1 -out /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/TEST_group_10.out -outfmt '6 qseqid qlen sseqid pident length qstart qend sstart send evalue bitscore staxids'
+# blastn -query /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_10.fasta -db /home/Applications/ncbi-blast-2.4.0+/bin/nt00thru36 -evalue 1e-1 -out /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/TEST_group_10.out -outfmt '6 qseqid qlen sseqid pident length qstart qend sstart send evalue bitscore staxids'
 
 stream_output = True
 stream_error = True 
@@ -22,14 +22,14 @@ stream_error = True
 #output           = /home/smccalla/htcondor/$(the_analysis_name)/log/blast.out.group_$(Process)
 #error            = /home/smccalla/htcondor/$(the_analysis_name)/log/blast.error.$(Process)
 
-log              = /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/log.log
-output           = /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/blast.out.group_$(Process)
-error            = /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/logblast.error.$(Process)
+log              = /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/log.log
+output           = /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/blast.out.group_$(Process)
+error            = /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/logblast.error.$(Process)
 
-#log              = /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/log/blast.log
-#output           = /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/log/blast.out.group_12
-#error            = /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/log/blast.error.12
+#log              = /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/log/blast.log
+#output           = /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/log/blast.out.group_12
+#error            = /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/log/blast.error.12
 
 #queue filename matching files /home/smccalla/htcondor/$(the_analysis_name)/data/fasta_files/group_*.fasta
-#queue filename matching files /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_3*.fasta
-queue filename matching files /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/group_*.fasta
+#queue filename matching files /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/saved_files/group_3*.fasta
+queue filename matching files /home/smccalla/GAIM_01/data/fasta_files/fastqjoin.join.fna.formatted/group_*.fasta
