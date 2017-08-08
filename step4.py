@@ -58,8 +58,8 @@ print('\n')
 # python taxonomy_assignment_BLAST.py --blast_file GAIM_15_blast.out --cutoff_species 99 --cutoff_family 90 --cutoff_phylum 85 --length_percentage 0.8 --length_cutoff 70 --hits_to_consider 10 --percent_sway 0.5 --blast_evalue 1e-1 --make_biom --ncbi_nt combined_seqs.fna NONE ncbi_taxonomy_expanded.tsv -v --otu_file saved_files/combined_seqs_otus.txt
 
 runstr = 'python taxonomy_assignment_BLAST_V1.1.py ' \
-         '--blast_file {1}/{0}_blast.out --cutoff_species 99 --cutoff_family 95 --cutoff_phylum 90 --length_percentage 0.8 ' \
-         '--length_cutoff 60 --hits_to_consider 10 --percent_sway 0.50 --blast_evalue 1e-1 --make_biom --ncbi_nt {1}/combined_seqs.fna NONE {1}/ncbi_taxonomy_expanded.tsv -v ' \
+         '--blast_file {1}/{0}_blast.out --cutoff_species 99 --cutoff_family 90 --cutoff_phylum 85 --length_percentage 0.8 ' \
+         '--length_cutoff 70 --hits_to_consider 10 --percent_sway 0.50 --blast_evalue 1e-1 --make_biom --ncbi_nt {1}/combined_seqs.fna NONE {1}/ncbi_taxonomy_expanded.tsv -v ' \
          '--otu_file {1}/saved_files/combined_seqs_otus.txt --output_dir {1}/{0}_OTU/'.format(os.path.join(the_analysis_name),
          os.path.join(formattednamesdir))
 
