@@ -83,7 +83,7 @@ if not os.path.exists(fastQvaldir):
 print ("Now running fastQValidator")
 for i in [1,2]:
     print ('Running fastQValidator for all_R{0}.fastq'.format(i))
-    runstr = 'fastQValidator --file {0} --minReadLen 10 --printableErrors 50' \
+    runstr = '/usr/local/bin/fastQValidator/bin/fastQValidator --file {0} --minReadLen 10 --printableErrors 50' \
              ' --baseComposition --avgQual --maxErrors 50 > {1}'.format(
                 os.path.join(datadir,'all_R{0}.fastq'.format(i)),
                 os.path.join(fastQvaldir,'R{0}.fastQValidator'.format(i)))
