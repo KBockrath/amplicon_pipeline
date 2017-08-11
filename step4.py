@@ -60,7 +60,7 @@ print('\n')
 # python taxonomy_assignment_BLAST.py --blast_file GAIM_15_blast.out --cutoff_species 99 --cutoff_family 90 --cutoff_phylum 85 --length_percentage 0.8 --length_cutoff 70 --hits_to_consider 10 --percent_sway 0.5 --blast_evalue 1e-1 --make_biom --ncbi_nt combined_seqs.fna NONE ncbi_taxonomy_expanded.tsv -v --otu_file saved_files/combined_seqs_otus.txt
 
 runstr = 'python taxonomy_assignment_BLAST_V1.1.py ' \
-         '--blast_file {1}/{0}_blast.out --cutoff_species 98 --cutoff_family 95 --cutoff_phylum 90 --length_percentage 0.8 ' \
+         '--blast_file {1}/{0}_blast.out --cutoff_species 98 --cutoff_family 98 --cutoff_phylum 98 --length_percentage 0.8 ' \
          '--length_cutoff 70 --hits_to_consider 20 --percent_sway 0.50 --blast_evalue 1e-5 --make_biom --ncbi_nt {1}/combined_seqs.fna NONE {1}/ncbi_taxonomy_expanded.tsv -v ' \
          '--otu_file {1}/saved_files/combined_seqs_otus.txt --output_dir {1}/{0}_OTU/'.format(os.path.join(the_analysis_name),
          os.path.join(formattednamesdir))
@@ -71,6 +71,12 @@ print ('taxonomy_assignment_BLAST.py #2 underway:\n{0}'.format(runstr))
 os.system(runstr)
 
 print('\n')
+
+# Change file permissions
+runstr='chmod -R 777 {0}'.format(
+    os.path.join(datadir))
+print('Changed permissions \n'.format(runstr))
+os.system(runstr)
 
 # Start Qiime analyses
 # http://fmgdata.kinja.com/using-docker-with-conda-environments-1790901398
@@ -92,16 +98,66 @@ runstr = 'summarize_taxa_through_plots.py -i {1}/{0}_OTU/otu_table.biom -m {2} '
 print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
 os.system(runstr)
 
-
 # biom summarize-table -i otu_table.biom --qualitative -o otu_table_qual_summary.txt
-# biom convert -i otu_table.biom -o otu_table_tax.biom.txt --to-tsv
+
+# summarize_taxa.py -i otu_table.biom -L 15 -o 15summary
+
+# Filter out unassigned taxa:
+# http://qiime.org/scripts/filter_taxa_from_otu_table.html
+# filter_taxa_from_otu_table.py -i otu_table.biom -o otu_table_non_unknown.biom -n Unassigned
+runstr = 'filter_taxa_from_otu_table.py -i {1}/{0}_OTU/otu_table.biom ' \
+     '-o otu_table_unknown_removed.biom -n Unassigned '.format(os.path.join(the_analysis_name),
+     os.path.join(formattednamesdir),os.path.join(mappingpath))
+
+# Change file permissions
+runstr='chmod -R 777 {0}'.format(
+    os.path.join(datadir))
+print('Changed permissions \n'.format(runstr))
+os.system(runstr)  
+
+# Summarize the species with the unknowns removed
+# summarize_taxa.py -i otu_table_non_unknown.biom -L 15 -o 15
+# http://qiime.org/scripts/summarize_taxa.html
+runstr = 'filter_taxa_from_otu_table.py ' \
+     '-i {1}/{0}_OTU/otu_table_unknown_removed.biom ' \
+     '-L 15 -o 15 '.format(os.path.join(the_analysis_name),
+     os.path.join(formattednamesdir),os.path.join(mappingpath))
+     
+print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
+os.system(runstr)
+ 
+# Filter out loons:
+# http://qiime.org/scripts/filter_taxa_from_otu_table.html
+# filter_taxa_from_otu_table.py -i otu_table.biom -o otu_table_non_unknown.biom -n Unassigned
+runstr = 'filter_taxa_from_otu_table.py -i {1}/{0}_OTU/otu_table.biom ' \
+     '-o otu_table_loons_removed.biom -n D_8__Gaviiformes '.format(os.path.join(the_analysis_name),
+     os.path.join(formattednamesdir),os.path.join(mappingpath))
+     
+print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
+os.system(runstr)
+
+# Change file permissions
+runstr='chmod -R 777 {0}'.format(
+    os.path.join(datadir))
+print('Changed permissions \n'.format(runstr))
+os.system(runstr)
+
+# Summarize the species with loon results removed
+# summarize_taxa.py -i otu_table_non_unknown.biom -L 15 -o 15
+# http://qiime.org/scripts/summarize_taxa.html
+runstr = 'filter_taxa_from_otu_table.py ' \
+     '-i {1}/{0}_OTU/otu_table_loons_removed.biom ' \
+     '-L 15 -o 15 '.format(os.path.join(the_analysis_name),
+     os.path.join(formattednamesdir),os.path.join(mappingpath))
+     
+print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
+os.system(runstr)
 
 print('\n')
 
 # Change file permissions
 runstr='chmod -R 777 {0}'.format(
     os.path.join(datadir))
-
 print('Changed permissions \n'.format(runstr))
 os.system(runstr)
 
