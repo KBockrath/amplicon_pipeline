@@ -126,15 +126,22 @@ runstr = 'filter_taxa_from_otu_table.py ' \
 print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
 os.system(runstr)
  
-# Filter out loons:
+# Filter out unknowns and loons:
 # http://qiime.org/scripts/filter_taxa_from_otu_table.html
 # filter_taxa_from_otu_table.py -i otu_table.biom -o otu_table_non_unknown.biom -n Unassigned
-runstr = 'filter_taxa_from_otu_table.py -i {1}/{0}_OTU/otu_table.biom ' \
+runstr = 'filter_taxa_from_otu_table.py -i {1}/{0}_OTU/otu_table_unknown_removed.biom ' \
      '-o otu_table_loons_removed.biom -n D_8__Gaviiformes '.format(os.path.join(the_analysis_name),
      os.path.join(formattednamesdir),os.path.join(mappingpath))
      
 print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
 os.system(runstr)
+
+# summarize_taxa_through_plots.py
+# summarize_taxa_through_plots.py -i table.w_smd.biom -p /home/smccalla/taxa_params.txt -m /home/smccalla/loon_mapping_file_corrected.txt -o unknown_removed_taxa_summary_99 -f
+# summarize_taxa_through_plots.py -p /home/smccalla/taxa_params.txt -f -o non_unknown -i otu_table_non_unknown.biom -m /home/smccalla/loon_mapping_file_corrected.txt
+# biom add-metadata -i otu_table_non_unknown_L15.biom -o table.w_smd.biom --sample-metadata-fp /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/test_28_OTU/15/otu_table_non_unknown_L15.txt
+# biom summarize-table -i otu_table_non_unknown.biom
+# core_diversity_analyses.py -i otu_table_non_unknown.biom -o cdout/ -m /home/smccalla/loon_mapping_file_corrected.txt -e 26 --nonphylogenetic_diversity
 
 # Change file permissions
 runstr='chmod -R 777 {0}'.format(
@@ -166,5 +173,3 @@ print('\n')
 print ('This is the end.')
 
 print('\n')
-
-
