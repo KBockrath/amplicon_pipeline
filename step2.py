@@ -178,7 +178,7 @@ def batch_iterator(iterator, batch_size):
             yield batch
 			
 record_iter = SeqIO.parse(open(newotupath),"fasta")
-for i, batch in enumerate(batch_iterator(record_iter, 5000)):
+for i, batch in enumerate(batch_iterator(record_iter, 3000)):
     filename = "group_%i.fasta" % (i)
     handle = open(filename, "w")
     count = SeqIO.write(batch, handle, "fasta")

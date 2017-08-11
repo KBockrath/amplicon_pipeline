@@ -1,9 +1,9 @@
 #!/usr/bin/python
-# docker run -it -v /home/smccalla/working_docker_directory:/home/smccalla/ -w /Bioinformatics_Grace/ amplicon_pipeline3 /bin/bash
-# docker run -it -v /home/smccalla/:/home/smccalla/ -w /Bioinformatics_Grace/ -i mnfienen/amplicon_pipeline3 /bin/bash
-# python step1.py GAIM_15*_R1_001.fastq.gz GAIM_15*_R2_001.fastq.gz GAIM_15 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+# docker run -it -v /home/smccalla/:/home/smccalla/ -w /usr/ -i smccalla/amplicon_dockerfile /bin/bash
 # python step1.py test*_R1.fastq.gz test*_R2.fastq.gz test_28 test test
 # python step1.py GAIM_01*_R1_001.fastq.gz GAIM_01*_R2_001.fastq.gz GAIM_01 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+#
+#
 #
 # Assuming all the raw data is in /home/smccalla/working_docker_directory/raw_data
 from __future__ import print_function
@@ -55,6 +55,10 @@ os.system('cat {0}/*R2*.fastq > {0}/all_R2.fastq'.format(datadir))
 
 print ("Finished concatenating the forward and reverse files")
 
+# Change file permissions
+runstr='chmod -R 777 {0}'.format(
+    os.path.join(datadir))
+
 # make a fastQC folder
 fastQCdir = os.path.join(datadir,'fastQC')
 if not os.path.exists(fastQCdir):
@@ -72,6 +76,10 @@ for i in [1,2]:
         fastQCdir)
     os.system(runstr)
 
+# Change file permissions
+runstr='chmod -R 777 {0}'.format(
+    os.path.join(datadir))    
+    
 print ("Finished fastQC")
 # next run fastQvalidator
 
@@ -83,7 +91,7 @@ if not os.path.exists(fastQvaldir):
 print ("Now running fastQValidator")
 for i in [1,2]:
     print ('Running fastQValidator for all_R{0}.fastq'.format(i))
-    runstr = '/usr/local/bin/fastQValidator/bin/fastQValidator --file {0} --minReadLen 10 --printableErrors 50' \
+    runstr = '/usr/local/bin/fastQValidator/bin/fastQValidator --file {0} --minReadLen 70 --printableErrors 50' \
              ' --baseComposition --avgQual --maxErrors 50 > {1}'.format(
                 os.path.join(datadir,'all_R{0}.fastq'.format(i)),
                 os.path.join(fastQvaldir,'R{0}.fastQValidator'.format(i)))
