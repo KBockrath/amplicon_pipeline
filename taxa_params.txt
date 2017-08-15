@@ -1,2 +1,3 @@
 #echo "plot_taxa_summary:chart_type pie,bar" > taxa_params.txt
 plot_taxa_summary:chart_type bar,pie
+summarize_taxa:level 2,3,4,5,6,7,8,9,10,11,12,13,15,16,16,17
