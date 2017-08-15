@@ -3,7 +3,7 @@
 #
 # python step4.py test_28
 # python step4.py GAIM_15
-# python step4.py GAIM_01
+# python step4.py GAIM_03
 # 
 from __future__ import print_function
 import sys, os, shutil, glob, zipfile

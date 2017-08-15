@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # python step2.py GAIM_15
-# python step2.py GAIM_01
+# python step2.py GAIM_03
 # python step2.py test_28
 from __future__ import print_function
 import sys, os, shutil, glob
@@ -31,8 +31,8 @@ jpe_dir = os.path.join(datadir, 'join_paired_ends')
 # /home/smccalla/working_docker_directory/GAIM_15/data/fasta_files/fastqjoin.join.fna
 fppath =  os.path.join(fastafilesdir, 'fastqjoin.join.fna')
 
-# /home/smccalla/loon_qiime_mapping_file_trainer_file_3_corrected.txt
-mappingpath = os.path.join('/','home','smccalla','loon_qiime_mapping_file_trainer_file_3_corrected.txt')
+# /home/smccalla/qiime_mapping_file_corrected.txt
+mappingpath = os.path.join('/','home','smccalla','qiime_mapping_file_corrected.txt')
 
 # /home/smccalla/working_docker_directory/GAIM_15/data/fasta_files/fastqjoin.join.fna.formatted/
 formattednamesdir = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted')
@@ -86,7 +86,7 @@ os.system(runstr)
 #####Change the location of the files
 
 #Add Qiime labels to the sequences names
-#add_qiime_labels.py -i {0} -m loon_qiime_mapping_file_trainer_file_3_corrected.txt -c InputFileName -n 1 -o combined_fasta
+#add_qiime_labels.py -i {0} -m qiime_mapping_file_corrected.txt -c InputFileName -n 1 -o combined_fasta
 runstr = 'add_qiime_labels.py -i {1} ' \
                 '-m {3} ' \
                 '-c InputFileName ' \

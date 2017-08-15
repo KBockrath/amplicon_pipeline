@@ -25,6 +25,12 @@ pip2 install biopython
 # change bash prompt to shorten (just an option, not necessary)
 PS1="umesc : "
 
+# If you know the sample prefix heading you ran before, you can batch change the heading name with sed:
+# This changes "GAIM_02" to "GAIM_03" in files step1.py step2.py step3.sub step3_outformat_6.sh step4.py
+# and "GAIM02" to "GAIM03" in the qiime_mapping_file_corrected.txt (the sample id cannot have underscores)
+sed -i 's/GAIM_02/GAIM_03/' step1.py step2.py step3.sub step3_outformat_6.sh step4.py
+sed -i 's/GAIM02/GAIM03/' qiime_mapping_file_corrected.txt
+
 #_____________________________________________________________________________________________________________
 
 # STEP 1
