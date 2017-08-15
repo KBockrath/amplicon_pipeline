@@ -110,7 +110,7 @@ if not os.path.exists(trimdatadir):
 runstr = 'java -jar /usr/local/bin/trimmomatic-0.36.jar '  \
           'PE -phred33 -trimlog {0}trimlog.trim {1} {2} '  \
           '{3}/R1trimmed.fastq {3}/R1single.fastq {3}/R2trimmed.fastq {3}/R2single.fastq LEADING:3 ' \
-          'TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:50'.format(
+          'TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:70'.format(
               os.path.join(trimdatadir,'{0}_trimlog.trim'.format(the_analysis_name)),
               os.path.join(datadir, 'all_R1.fastq'),
               os.path.join(datadir, 'all_R2.fastq'),
