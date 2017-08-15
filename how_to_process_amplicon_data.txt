@@ -6,7 +6,7 @@
 # this is assuming that the data has already been through bcl2fastq
 # the raw data is located at: /home/smccalla/working_docker_directory/raw_data
 
-# start docker:
+# from the command line, start docker:
 docker run -it -v /home/smccalla/:/home/smccalla/ -w /usr/ -i smccalla/amplicon_dockerfile /bin/bash
 
 # change directory to the directory with the step1, 2, 3, and 4 python files:
