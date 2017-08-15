@@ -26,8 +26,8 @@ jpe_dir = os.path.join(datadir, 'join_paired_ends')
 # /home/smccalla/working_docker_directory/GAIM_15/data/fasta_files/fastqjoin.join.fna
 fppath =  os.path.join(fastafilesdir, 'fastqjoin.join.fna')
 
-# /home/smccalla/loon_qiime_mapping_file_trainer_file_3_corrected.txt
-mappingpath = os.path.join('/','home','smccalla','loon_qiime_mapping_file_trainer_file_3_corrected.txt')
+# /home/smccalla/qiime_mapping_file_corrected.txt
+mappingpath = os.path.join('/','home','smccalla','qiime_mapping_file_corrected.txt')
 
 # /home/smccalla/working_docker_directory/GAIM_15/data/fasta_files/fastqjoin.join.fna.formatted/
 formattednamesdir = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted')
@@ -61,7 +61,7 @@ print('\n')
 
 runstr = 'python taxonomy_assignment_BLAST_V1.1.py ' \
          '--blast_file {1}/{0}_blast.out --cutoff_species 98 --cutoff_family 98 --cutoff_phylum 98 --length_percentage 0.8 ' \
-         '--length_cutoff 70 --hits_to_consider 20 --percent_sway 0.50 --blast_evalue 1e-5 --make_biom --ncbi_nt {1}/combined_seqs.fna NONE {1}/ncbi_taxonomy_expanded.tsv -v ' \
+         '--length_cutoff 70 --hits_to_consider 20 --percent_sway 0.50 --blast_evalue 1e-11 --make_biom --ncbi_nt {1}/combined_seqs.fna NONE {1}/ncbi_taxonomy_expanded.tsv -v ' \
          '--otu_file {1}/saved_files/combined_seqs_otus.txt --output_dir {1}/{0}_OTU/'.format(os.path.join(the_analysis_name),
          os.path.join(formattednamesdir))
 
@@ -79,6 +79,11 @@ print('Changed permissions \n'.format(runstr))
 os.system(runstr)
 
 # Start Qiime analyses
+print ('Starting Qiime analyses\n')
+
+# Parameter file background:
+# https://groups.google.com/forum/#!searchin/qiime-forum/summarize_taxa_through_plots.py$20parameter$20file$20species|sort:relevance/qiime-forum/KFdHfJpywOk/Aaz6R2XdDQAJ
+# https://groups.google.com/forum/#!searchin/qiime-forum/summarize_taxa_through_plots.py$20parameter$20file$20species%7Csort:relevance/qiime-forum/f6ZDmnvvQcs/Mq_DujaKbn0J
 # http://fmgdata.kinja.com/using-docker-with-conda-environments-1790901398
 # Copy taxa_params.txt to the formattednamesdir
 # cp /home/smccalla/taxa_params.txt .
@@ -89,59 +94,55 @@ for file in glob.glob(os.path.join('/','home','smccalla','taxa_params.txt')):
 print('\n')
     
 # summarize_taxa_through_plots.py
-# summarize_taxa_through_plots.py -i otu_table.biom -p /home/smccalla/taxa_params.txt -m loon_mapping_file_corrected.txt -o GAIM_15_taxa_summary_99 -f
-
+# summarize_taxa_through_plots.py -i otu_table.biom -p /home/smccalla/taxa_params.txt -m qiime_mapping_file_corrected.txt -o GAIM_15_taxa_summary -f
+# https://groups.google.com/forum/#!searchin/qiime-forum/summarize_taxa_through_plots.py$20parameter$20file$20species|sort:relevance/qiime-forum/878CfWG7v0k/30dzkpugDAAJ
 runstr = 'summarize_taxa_through_plots.py -i {1}/{0}_OTU/otu_table.biom -m {2} ' \
-     '-p {1}/taxa_params.txt -o {1}/{0}_taxa_summary -f '.format(os.path.join(the_analysis_name),
+     '-p {1}/taxa_params.txt -o {1}/{0}_taxa_summary -f -s #SampleID '.format(os.path.join(the_analysis_name),
      os.path.join(formattednamesdir),os.path.join(mappingpath))
             
 print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
 os.system(runstr)
+print('\n')
 
-# biom summarize-table -i otu_table.biom --qualitative -o otu_table_qual_summary.txt
-
-# summarize_taxa.py -i otu_table.biom -L 15 -o 15summary
-
-# Filter out unassigned taxa:
+# Filter out "unknowns" taxa records:
 # http://qiime.org/scripts/filter_taxa_from_otu_table.html
 # filter_taxa_from_otu_table.py -i otu_table.biom -o otu_table_non_unknown.biom -n Unassigned
 runstr = 'filter_taxa_from_otu_table.py -i {1}/{0}_OTU/otu_table.biom ' \
-     '-o otu_table_unknown_removed.biom -n Unassigned '.format(os.path.join(the_analysis_name),
+     '-o {1}/{0}_OTU/{0}_otu_table_unknown_removed.biom -n Unassigned '.format(os.path.join(the_analysis_name),
      os.path.join(formattednamesdir),os.path.join(mappingpath))
+print ('Filtering out "unknowns" taxa records:\n{0}'.format(runstr))
+os.system(runstr)
+print('\n')
 
 # Change file permissions
 runstr='chmod -R 777 {0}'.format(
     os.path.join(datadir))
 print('Changed permissions \n'.format(runstr))
 os.system(runstr)  
+print('\n')
 
-# Summarize the species with the unknowns removed
+# Summarize the species with the "unknowns" removed
 # summarize_taxa.py -i otu_table_non_unknown.biom -L 15 -o 15
 # http://qiime.org/scripts/summarize_taxa.html
-runstr = 'filter_taxa_from_otu_table.py ' \
-     '-i {1}/{0}_OTU/otu_table_unknown_removed.biom ' \
-     '-L 15 -o 15 '.format(os.path.join(the_analysis_name),
+runstr = 'summarize_taxa.py ' \
+     '-i {1}/{0}_OTU/{0}_otu_table_unknown_removed.biom ' \
+     '-L 15 -o {1}/{0}_OTU/{0}_otu_table_unknown_removed '.format(os.path.join(the_analysis_name),
      os.path.join(formattednamesdir),os.path.join(mappingpath))
      
-print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
+print ('Summarizing the species with the "unknowns" removed:\n{0}'.format(runstr))
 os.system(runstr)
- 
-# Filter out unknowns and loons:
+print('\n')
+
+# Filter out "unknowns" and loons:
 # http://qiime.org/scripts/filter_taxa_from_otu_table.html
 # filter_taxa_from_otu_table.py -i otu_table.biom -o otu_table_non_unknown.biom -n Unassigned
-runstr = 'filter_taxa_from_otu_table.py -i {1}/{0}_OTU/otu_table_unknown_removed.biom ' \
-     '-o otu_table_loons_removed.biom -n D_8__Gaviiformes '.format(os.path.join(the_analysis_name),
+runstr = 'filter_taxa_from_otu_table.py -i {1}/{0}_OTU/{0}_otu_table_unknown_removed.biom ' \
+     '-o {1}/{0}_OTU/{0}_otu_table_loons_removed.biom -n D_8__Gaviiformes '.format(os.path.join(the_analysis_name),
      os.path.join(formattednamesdir),os.path.join(mappingpath))
      
-print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
+print ('Filtering out "unknowns" and loons:\n{0}'.format(runstr))
 os.system(runstr)
-
-# summarize_taxa_through_plots.py
-# summarize_taxa_through_plots.py -i table.w_smd.biom -p /home/smccalla/taxa_params.txt -m /home/smccalla/loon_mapping_file_corrected.txt -o unknown_removed_taxa_summary_99 -f
-# summarize_taxa_through_plots.py -p /home/smccalla/taxa_params.txt -f -o non_unknown -i otu_table_non_unknown.biom -m /home/smccalla/loon_mapping_file_corrected.txt
-# biom add-metadata -i otu_table_non_unknown_L15.biom -o table.w_smd.biom --sample-metadata-fp /home/smccalla/test_28/data/fasta_files/fastqjoin.join.fna.formatted/test_28_OTU/15/otu_table_non_unknown_L15.txt
-# biom summarize-table -i otu_table_non_unknown.biom
-# core_diversity_analyses.py -i otu_table_non_unknown.biom -o cdout/ -m /home/smccalla/loon_mapping_file_corrected.txt -e 26 --nonphylogenetic_diversity
+print('\n')
 
 # Change file permissions
 runstr='chmod -R 777 {0}'.format(
@@ -149,17 +150,16 @@ runstr='chmod -R 777 {0}'.format(
 print('Changed permissions \n'.format(runstr))
 os.system(runstr)
 
-# Summarize the species with loon results removed
+# Summarizing the species with "unknowns" and loon results removed
 # summarize_taxa.py -i otu_table_non_unknown.biom -L 15 -o 15
 # http://qiime.org/scripts/summarize_taxa.html
-runstr = 'filter_taxa_from_otu_table.py ' \
-     '-i {1}/{0}_OTU/otu_table_loons_removed.biom ' \
-     '-L 15 -o 15 '.format(os.path.join(the_analysis_name),
+runstr = 'summarize_taxa.py ' \
+     '-i {1}/{0}_OTU/{0}_otu_table_loons_removed.biom ' \
+     '-L 15 -o {1}/{0}_OTU/{0}_species_summary_15 '.format(os.path.join(the_analysis_name),
      os.path.join(formattednamesdir),os.path.join(mappingpath))
      
-print ('Summarizing the biom file in plots:\n{0}'.format(runstr))
+print ('Summarizing the species with loon results removed:\n{0}'.format(runstr))
 os.system(runstr)
-
 print('\n')
 
 # Change file permissions
@@ -169,7 +169,5 @@ print('Changed permissions \n'.format(runstr))
 os.system(runstr)
 
 print('\n')
-
 print ('This is the end.')
-
 print('\n')
