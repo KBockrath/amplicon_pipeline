@@ -10,6 +10,7 @@
 docker run -it -v /home/smccalla/:/home/smccalla/ -w /usr/ -i smccalla/amplicon_dockerfile /bin/bash
 
 # change directory to the directory with the step1, 2, 3, and 4 python files:
+# might not have to do this anymore since I added the steps to the docker file
 cd /home/smccalla
 
 # start qiime:
@@ -27,6 +28,10 @@ PS1="umesc : "
 #_____________________________________________________________________________________________________________
 
 # STEP 1
+
+# This step copies the raw data files to the current working directory, executes fastQValidator, executes FastQC,
+# executes trimmomatic, joins paired ends
+
 # If you want to change the analysis to a different sample library, change the "GAIM_15" to your library of interest, 
 # i.e. change to "GAIM_16" in the command line arguments.
 # There are 7 elements you need to start Step1.
@@ -37,7 +42,7 @@ PS1="umesc : "
 # 5. The name of the library: GAIM_15
 # 6. NextSeq run name: 160408_NB501144_0002_AHMFMNBGXX
 # 7. bcl2fastq project name: Loons_Long_Tailed
-# Enter all of those elements (1-7) at once at the command line.
+# Enter all of those elements (1-7) all at once at the command line.
 
 # To execute step1:
 python step1.py GAIM_15*_R1_001.fastq.gz GAIM_15*_R2_001.fastq.gz GAIM_15 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
@@ -48,14 +53,17 @@ python step1.py GAIM_15*_R1_001.fastq.gz GAIM_15*_R2_001.fastq.gz GAIM_15 160408
 #_____________________________________________________________________________________________________________
 
 # STEP 2
+
+# This step converts fasta to fastq, changes the sequence names, assigns taxonomy #1, splits the data into many files
+
+# ***Make sure you have a mapping file and/or that the mapping file is correct (i.e. change "GAIM_15" to "GAIM_16" 
+#    in loon_qiime_mapping_file_trainer_file_3_corrected.txt)***
 # If you want to change the analysis to a different sample library, change the "GAIM_15" to your library of interest, 
 # i.e. change to "GAIM_16" in the command line arguments.
-# There are 4 elements you need to start Step1.
-# 1. Make sure you have a mapping file and/or that the mapping file is correct (i.e. change "GAIM_15" to "GAIM_16" 
-#    in loon_qiime_mapping_file_trainer_file_3_corrected.txt)
-# 2. Invoke python: python 
-# 3. Call the python script you want to run: step1.py 
-# 4. The name of the library: GAIM_15
+# There are 3 elements you need to start Step2:
+# 1. Invoke python: python 
+# 2. Call the python script you want to run: step1.py 
+# 3. The name of the library: GAIM_15
 
 # To execute step2:
 python step2.py GAIM_15
@@ -76,6 +84,8 @@ chmod -R 777 /home/smccalla/GAIM_15
 #_____________________________________________________________________________________________________________
 
 # STEP 3
+
+# This step BLASTS the fasta files
 
 # Exit docker:
 exit
@@ -107,6 +117,9 @@ condor_rm smccalla
 #_____________________________________________________________________________________________________________
 
 # STEP 4
+
+# This step concatenates the BLAST results, assigns taxonomy #2, summarizes taxa, and summarizes taxa through plots
+# executes trimmomatic, joins paired ends
 
 # start docker:
 docker run -it -v /home/smccalla/:/home/smccalla/ -w /usr/ -i smccalla/amplicon_dockerfile /bin/bash
@@ -150,7 +163,7 @@ cd /home/smccalla/
 
 #_____________________________________________________________________________________________________________
 
-# Extras:
+# Extras that may be helpful:
 
 # Merge two or more OTU tables into a single OTU table
 # http://qiime.org/scripts/merge_otu_tables.html
