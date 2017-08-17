@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # python step2.py GAIM_15
-# python step2.py GAIM_05
+# python step2.py GAIM_13
 # python step2.py test_28
 from __future__ import print_function
 import sys, os, shutil, glob
@@ -41,10 +41,10 @@ formattednamesdir = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted')
 # Qiime name-formatted fasta file. Use this file for all subsequent analyses
 combinedseqspath = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted', 'combined_seqs.fna')
 
-# /home/smccalla/working_docker_directory/GAIM_05/data/fasta_files/fastqjoin.join.fna.formatted/saved_files
+# /home/smccalla/working_docker_directory/GAIM_13/data/fasta_files/fastqjoin.join.fna.formatted/saved_files
 savedfilesdir = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted', 'saved_files')
 
-# /home/smccalla/working_docker_directory/GAIM_05/data/fasta_files/fastqjoin.join.fna.formatted/otu_picking_output
+# /home/smccalla/working_docker_directory/GAIM_13/data/fasta_files/fastqjoin.join.fna.formatted/otu_picking_output
 otupickdir = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted', 'otu_picking_output')
 
 currdir = os.path.abspath(os.getcwd())

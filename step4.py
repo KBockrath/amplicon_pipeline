@@ -3,7 +3,7 @@
 #
 # python step4.py test_28
 # python step4.py GAIM_15
-# python step4.py GAIM_05
+# python step4.py GAIM_13
 # 
 from __future__ import print_function
 import sys, os, shutil, glob, zipfile
@@ -36,7 +36,7 @@ formattednamesdir = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted')
 # Qiime name-formatted fasta file. Use this file for all subsequent analyses
 combinedseqspath = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted', 'combined_seqs.fna')
 
-# /home/smccalla/working_docker_directory/GAIM_05/data/fasta_files/fastqjoin.join.fna.formatted/saved_files
+# /home/smccalla/working_docker_directory/GAIM_13/data/fasta_files/fastqjoin.join.fna.formatted/saved_files
 savedfilesdir = os.path.join(fastafilesdir, 'fastqjoin.join.fna.formatted', 'saved_files')
 
 #currdir = os.path.abspath(os.getcwd())
@@ -60,7 +60,7 @@ print('\n')
 # python taxonomy_assignment_BLAST.py --blast_file GAIM_15_blast.out --cutoff_species 99 --cutoff_family 90 --cutoff_phylum 85 --length_percentage 0.8 --length_cutoff 70 --hits_to_consider 10 --percent_sway 0.5 --blast_evalue 1e-1 --make_biom --ncbi_nt combined_seqs.fna NONE ncbi_taxonomy_expanded.tsv -v --otu_file saved_files/combined_seqs_otus.txt
 
 runstr = 'python taxonomy_assignment_BLAST_V1.1.py ' \
-         '--blast_file {1}/{0}_blast.out --cutoff_species 98 --cutoff_family 98 --cutoff_phylum 98 --length_percentage 0.8 ' \
+         '--blast_file {1}/{0}_blast.out --cutoff_species 99 --cutoff_family 98 --cutoff_phylum 98 --length_percentage 0.8 ' \
          '--length_cutoff 70 --hits_to_consider 20 --percent_sway 0.50 --blast_evalue 1e-11 --make_biom --ncbi_nt {1}/combined_seqs.fna NONE {1}/ncbi_taxonomy_expanded.tsv -v ' \
          '--otu_file {1}/saved_files/combined_seqs_otus.txt --output_dir {1}/{0}_OTU/'.format(os.path.join(the_analysis_name),
          os.path.join(formattednamesdir))
@@ -164,6 +164,12 @@ print('\n')
 
 # Change file permissions
 runstr='chmod -R 777 {0}'.format(
+    os.path.join(datadir))
+print('Changed permissions \n'.format(runstr))
+os.system(runstr)
+
+# Change file permissions
+runstr='chmod -R 777 /home/smccalla'.format(
     os.path.join(datadir))
 print('Changed permissions \n'.format(runstr))
 os.system(runstr)
