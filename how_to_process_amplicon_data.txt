@@ -72,8 +72,8 @@ PS1="umesc : "
 # If you know the sample prefix heading you ran before, you can batch change the heading name for all of the files with sed.
 # The following command changes "GAIM_02" to "GAIM_03" in files step1.py step2.py step3.sub step3_outformat_6.sh step4.py
 # and "GAIM03" to "GAIM05" in the file qiime_mapping_file_corrected.txt (the sample id cannot have underscores)
-sed -i 's/GAIM_05/GAIM_12/g' step1.py step2.py step3.sub step3_outformat_6.sh step4.py
-sed -i 's/GAIM05/GAIM12/g' qiime_mapping_file_corrected.txt
+sed -i 's/GAIM_12/GAIM_13/g' step1.py step2.py step3.sub step3_outformat_6.sh step4.py
+sed -i 's/GAIM12/GAIM13/g' qiime_mapping_file_corrected.txt
 
 # If you want to change the analysis to a different sample library, change the "GAIM_15" to your library of interest, 
 # i.e. change to "GAIM_16" in the command line arguments.
