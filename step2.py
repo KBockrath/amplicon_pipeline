@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # python step2.py GAIM_15
-# python step2.py GAIM_03
+# python step2.py GAIM_05
 # python step2.py test_28
 from __future__ import print_function
 import sys, os, shutil, glob

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # docker run -it -v /home/smccalla/:/home/smccalla/ -w /usr/ -i smccalla/amplicon_dockerfile /bin/bash
 # python step1.py test*_R1.fastq.gz test*_R2.fastq.gz test_28 test test
-# python step1.py GAIM_03*_R1_001.fastq.gz GAIM_03*_R2_001.fastq.gz GAIM_03 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
+# nohup python step1.py GAIM_05*_R1_001.fastq.gz GAIM_05*_R2_001.fastq.gz GAIM_05 160408_NB501144_0002_AHMFMNBGXX Loons_Long_Tailed
 #
 #
 #

@@ -2,19 +2,62 @@
 # How to process amplicon data for Steps 1, 2, 3, and 4 outside of HTCondor DAG #
 #################################################################################
 
+# All scripts nescessary for analysis are located at:
+# https://github.com/sgmccalla/amplicon_pipeline
 # all of the step1, step2, step3, and step4 python/condor/shell/text files need to be in /home/smccalla (or your home directory i.e. /home/ylor)
-# this is assuming that the data has already been through bcl2fastq
-# the raw data is located at: /home/smccalla/working_docker_directory/raw_data
 
-# from the command line, start docker:
+#_____________________________________________________________________________________________________________
+
+# Dockerfile located at:
+# https://hub.docker.com/r/smccalla/amplicon_dockerfile/
+# check to see if the docker image is on your computer:
+docker images
+# do you see "smccalla/amplicon_dockerfile" under the "REPOSITORY" heading?           
+# if so, the docker image is ready to use. If not, execute:
+docker pull smccalla/amplicon_dockerfile
+# this will pull the docker image to your computer. May take ~ 45 min.
+
+#_____________________________________________________________________________________________________________
+
+# Other dependencies: 
+# 1. The ncbi nr database must be downloaded to your local computer/server (~ 40 GB).
+# 2. HTCondor must be installed on the local computer/server.
+# 3. bcl2fastq must be installed on the local computer/server.
+# 4. Illumina Experiment Manager on your local laptop (need user interface---not accessed using the terminal)
+
+#_____________________________________________________________________________________________________________
+
+# Run bcl2fastq (version 2.18.0.12) on the NextSeq run if this has not been done already:
+# 1. --runfolder-dir : directory where the raw data is located at
+# 2. --output-dir : where the output will be written to
+# 3. --sample-sheet : where the sample sheet made from Illumina Experiment Manager is located at
+# 4. --interop-dir : 
+
+nohup /usr/local/bin/bcl2fastq --runfolder-dir /home/koiuser/160408_NB501144_0002_AHMFMNBGXX/ --output-dir /home/koiuser/160408_NB501144_0002_AHMFMNBGXX/bcl2fastq_output --interop-dir /home/koiuser/160408_NB501144_0002_AHMFMNBGXX/ --sample-sheet /home/smccalla/data/170405_NB501053_0006_AHK2LGBGXY/SampleSheet.csv
+
+# So in this example, the raw data will be located at: /home/smccalla/working_docker_directory/raw_data
+
+#_____________________________________________________________________________________________________________
+
+# STEP 1
+
+# This step copies the raw data files to the current working directory, executes fastQValidator, executes FastQC,
+# executes trimmomatic, joins paired ends
+
+# From the command line, start docker:
 docker run -it -v /home/smccalla/:/home/smccalla/ -w /usr/ -i smccalla/amplicon_dockerfile /bin/bash
+
+# If you get the error 
+# "docker: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?. See 'docker run --help'." 
+# run the following command before beginning Docker
+systemctl start docker
+
+# start qiime:
+source activate qiime1
 
 # change directory to the directory with the step1, 2, 3, and 4 python files:
 # might not have to do this anymore since I added the steps to the docker file
 cd /home/smccalla
-
-# start qiime:
-source activate qiime1
 
 # install biopython package:
 conda install -q -y biopython
@@ -25,18 +68,11 @@ pip2 install biopython
 # change bash prompt to shorten (just an option, not necessary)
 PS1="umesc : "
 
-# If you know the sample prefix heading you ran before, you can batch change the heading name with sed:
-# This changes "GAIM_02" to "GAIM_03" in files step1.py step2.py step3.sub step3_outformat_6.sh step4.py
-# and "GAIM02" to "GAIM03" in the qiime_mapping_file_corrected.txt (the sample id cannot have underscores)
-sed -i 's/GAIM_02/GAIM_03/' step1.py step2.py step3.sub step3_outformat_6.sh step4.py
-sed -i 's/GAIM02/GAIM03/' qiime_mapping_file_corrected.txt
-
-#_____________________________________________________________________________________________________________
-
-# STEP 1
-
-# This step copies the raw data files to the current working directory, executes fastQValidator, executes FastQC,
-# executes trimmomatic, joins paired ends
+# If you know the sample prefix heading you ran before, you can batch change the heading name for all of the files with sed.
+# The following command changes "GAIM_02" to "GAIM_03" in files step1.py step2.py step3.sub step3_outformat_6.sh step4.py
+# and "GAIM03" to "GAIM05" in the file qiime_mapping_file_corrected.txt (the sample id cannot have underscores)
+sed -i 's/GAIM_03/GAIM_05/g' step1.py step2.py step3.sub step3_outformat_6.sh step4.py
+sed -i 's/GAIM03/GAIM05/g' qiime_mapping_file_corrected.txt
 
 # If you want to change the analysis to a different sample library, change the "GAIM_15" to your library of interest, 
 # i.e. change to "GAIM_16" in the command line arguments.
@@ -169,11 +205,39 @@ cd /home/smccalla/
 
 #_____________________________________________________________________________________________________________
 
+# Post-processing steps:
+# To free up space on the KOI, it is a good practice to move the processed data to the Nimble server after data analysis.
+
+#_____________________________________________________________________________________________________________
+
 # Extras that may be helpful:
 
 # Merge two or more OTU tables into a single OTU table
 # http://qiime.org/scripts/merge_otu_tables.html
 merge_otu_tables.py -i otu_table1.biom,otu_table2.biom -o merged_otu_table.biom
 merge_otu_tables.py -i GAIM01.biom,GAIM02.biom -o GAIM.01.02.merged_otu_table.biom
+
+# The following commands may be peridocially useful for Docker since Docker can use up root memory dramatically:
+# https://getintodevops.com/blog/keeping-the-whale-happy-how-to-clean-up-after-docker
+# https://github.com/chadoe/docker-cleanup-volumes
+# https://gist.github.com/bastman/5b57ddb3c11942094f8d0a97d461b430
+# Clean up dead and exited Docker containers
+# SEE DISK SPACE USAGE
+df -h
+# SEE LIST OF RUNNING CONTAINERS
+docker ps
+# SEE LIST OF STORED IMAGES
+docker images
+# Remove image based on IMAGE ID:
+docker rmi -f 9138d58a1bc8
+# DELETE ORPHANED AND DANGLING VOLUMES
+docker volume rm $(docker volume ls -qf dangling=true)
+# Dangling volumes are volumes that are not being used by a container. Dangling images are images that are not referenced to by containers or other images.
+# DELETE DANGLING AND UNTAGGED IMAGES
+docker rmi $(docker images -q -f dangling=true)
+# Cleanup commands, if you know what you're doing OR like living on the edge
+# DELETE EXITED CONTAINERS
+docker rm $(docker ps -aqf status=exited)
+# Note that this also deletes data containers you might have created.
 
 #_____________________________________________________________________________________________________________
